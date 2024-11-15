@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Save Div as Image</title>
+  <!-- Include html2canvas from a CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    #content {
+      width: 600px;
+      height: 250px;
+      border: none;
+      font-size: 100pt; /* Default font size */
+      background-color: mistyrose;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <br>
+  <br>
+  <div style="border-radius: 10px; width: 620px; text-align: center; padding: 20px; box-shadow: 0px 4px 8px rgba(131, 4, 63, 0.2);">
+ 
+
+  <h1>Convert Number Into Image</h1>
+  <hr>
+  Enter Number <input id="txtNumber" type="text" onkeyup="populateDiv()" /> 
+  Enter Font Size:   
+  <select id="ddlFontSize" onchange="changeDivFontSize()">
+    <option value="25pt">25</option>
+    <option value="50pt">50</option>
+    <option value="75pt">75</option>
+    <option value="100pt" selected>100</option>
+  </select>
+<br><br>
+  <div id="content">
+    <!-- Content will be centered here -->
+  </div>
+  <br>
+  <button onclick="saveDivAsImage()" style="background-color:hotpink; color:white;padding: 10px; font-weight:bold; font-size:12pt;">Save as Image</button>
+
+  <script>
+    function saveDivAsImage() {
+      const content = document.getElementById("content");
+      
+      html2canvas(content).then(canvas => {
+        // Convert the canvas to a data URL
+        const image = canvas.toDataURL("image/png");
+        var imgname =  document.getElementById("txtNumber").value + ".png";
+        // Create a link to download the image
+        const link = document.createElement("a");
+        link.href = image;
+        link.download = imgname;//"content-image.png";
+        
+        // Trigger download
+        link.click();
+      });
+    }
+  
+    function populateDiv() {
+      const inputText = document.getElementById("txtNumber").value;
+      document.getElementById("content").innerHTML = `<p>${inputText}</p>`;
+    }
+
+    function changeDivFontSize() {
+      // Get selected font size from dropdown
+      const selectedFontSize = document.getElementById("ddlFontSize").value;
+
+      // Set font size of the div to selected value
+      document.getElementById("content").style.fontSize = selectedFontSize;
+    }
+  </script>
+    </div>
+</body>
+</html>
